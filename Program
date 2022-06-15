@@ -59,7 +59,7 @@ namespace project0
             Console.WriteLine("7. Activate Account");
             Console.WriteLine("8. Exit");
             Console.WriteLine();
-            
+
         }
 
         static void printCustomerMenu()
@@ -91,7 +91,10 @@ namespace project0
             bool continueApp = true;
             printMenu();
 
-            while(continueApp)
+            string u = "karamo";
+            string p = "abcd";
+
+            while (continueApp)
             {
                 try
                 {
@@ -99,121 +102,132 @@ namespace project0
                     switch (choice)
                     {
                         case 1:                 // Login as Admin
-                            printAmdinMenu();
 
-                            int adminChoice = Convert.ToInt32(Console.ReadLine());
-                            switch(adminChoice)
+                          if (loginCheck(u, p))
                             {
-                                case 1:
-                                    Console.Clear();
-                                    Console.WriteLine("New Account");
-                                   
-                                    goBackToMenu();
-                                    break;
+                                printAmdinMenu();
 
-                                case 2:
-                                    Console.Clear();
-                                    Console.WriteLine("Account Details");
-                                    
-                                    goBackToMenu();
-                                    break;
+                                int adminChoice = Convert.ToInt32(Console.ReadLine());
+                                switch (adminChoice)
+                                {
+                                    case 1:
+                                        Console.Clear();
+                                        Console.WriteLine("New Account");
 
-                                case 3:
-                                    Console.Clear();
-                                    Console.WriteLine("Withdrawal");
-                                    
-                                    goBackToMenu();
-                                    break;
+                                        goBackToMenu();
+                                        break;
 
-                                case 4:
-                                    Console.Clear();
-                                    Console.WriteLine("Deposit");
-                                    
-                                    goBackToMenu();
-                                    break;
+                                    case 2:
+                                        Console.Clear();
+                                        Console.WriteLine("Account Details");
 
-                                case 5:
-                                    Console.Clear();
-                                    Console.WriteLine("Transfer Funds");
-                                    
-                                    goBackToMenu();
-                                    break;
+                                        goBackToMenu();
+                                        break;
 
-                                case 6:
-                                    Console.Clear();
-                                    Console.WriteLine("Disable Account");
-                                    
-                                    goBackToMenu();
-                                    break;
+                                    case 3:
+                                        Console.Clear();
+                                        Console.WriteLine("Withdrawal");
 
-                                case 7:
-                                    Console.Clear();
-                                    Console.WriteLine("Activate Account");
-                                    
-                                    goBackToMenu();
-                                    break;
+                                        goBackToMenu();
+                                        break;
 
-                                case 8:
-                                    Console.Clear();
-                                    Console.WriteLine("Thank You for Using the App");
-                                    continueApp = false;
-                                    goBackToMenu();
-                                    break;
+                                    case 4:
+                                        Console.Clear();
+                                        Console.WriteLine("Deposit");
+
+                                        goBackToMenu();
+                                        break;
+
+                                    case 5:
+                                        Console.Clear();
+                                        Console.WriteLine("Transfer Funds");
+
+                                        goBackToMenu();
+                                        break;
+
+                                    case 6:
+                                        Console.Clear();
+                                        Console.WriteLine("Disable Account");
+
+                                        goBackToMenu();
+                                        break;
+
+                                    case 7:
+                                        Console.Clear();
+                                        Console.WriteLine("Activate Account");
+
+                                        goBackToMenu();
+                                        break;
+
+                                    case 8:
+                                        Console.Clear();
+                                        Console.WriteLine("Thank You for Using the App");
+                                        continueApp = false;
+                                        goBackToMenu();
+                                        break;
+                                }
+
                             }
-
                             break;
 
 
 
-                        case 2:                 // Login as customer 
-                            printCustomerMenu();
-                            int customerChoice = Convert.ToInt32(Console.ReadLine());
-                            switch (customerChoice)
+
+                        case 2:                 // Login as customer
+
+                            if (loginCheck(u, p))
                             {
-                                case 1:
-                                    Console.Clear();
-                                    Console.WriteLine("Balance");
-                                    goBackToMenu();
-                                    break;
+                                printCustomerMenu();
+                                int customerChoice = Convert.ToInt32(Console.ReadLine());
+                                switch (customerChoice)
+                                {
+                                    case 1:
+                                        Console.Clear();
+                                        Console.WriteLine("Balance");
+                                        goBackToMenu();
+                                        break;
 
-                                case 2:
-                                    Console.Clear();
-                                    Console.WriteLine("Withdrawal");
-                                    goBackToMenu();
-                                    break;
+                                    case 2:
+                                        Console.Clear();
+                                        Console.WriteLine("Withdrawal");
+                                        goBackToMenu();
+                                        break;
 
-                                case 3:
-                                    Console.Clear();
-                                    Console.WriteLine("Deposit");
-                                    goBackToMenu();
-                                    break;
+                                    case 3:
+                                        Console.Clear();
+                                        Console.WriteLine("Deposit");
+                                        goBackToMenu();
+                                        break;
 
-                                case 4:
-                                    Console.Clear();
-                                    Console.WriteLine("Transfer");
-                                    goBackToMenu();
-                                    break;
+                                    case 4:
+                                        Console.Clear();
+                                        Console.WriteLine("Transfer");
+                                        goBackToMenu();
+                                        break;
 
-                                case 5:
-                                    Console.Clear();
-                                    Console.WriteLine("Transaction History");
-                                    goBackToMenu();
-                                    break;
+                                    case 5:
+                                        Console.Clear();
+                                        Console.WriteLine("Transaction History");
+                                        goBackToMenu();
+                                        break;
 
-                                case 6:
-                                    Console.Clear();
-                                    Console.WriteLine("Change Password");
-                                    goBackToMenu();
-                                    break;
+                                    case 6:
+                                        Console.Clear();
+                                        Console.WriteLine("Change Password");
+                                        goBackToMenu();
+                                        break;
 
-                                case 7:
-                                    Console.Clear();
-                                    Console.WriteLine("Thank You for Using the App");
-                                    continueApp = false;
-                                    break;
+                                    case 7:
+                                        Console.Clear();
+                                        Console.WriteLine("Thank You for Using the App");
+                                        continueApp = false;
+                                        break;
+                                }
+
+                               
                             }
+                            break;
                             
-                            break;
 
 
 
@@ -224,7 +238,7 @@ namespace project0
                             break;
                     }
                 }
-              catch(Exception es)
+                catch (Exception es)
                 {
                     Console.Clear();
                     Console.WriteLine(es.Message);
@@ -234,8 +248,8 @@ namespace project0
 
 
             }
-     
-            
+
+
         }
 
     }
