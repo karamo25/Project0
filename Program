@@ -4,6 +4,38 @@ namespace project0
 {
     class Program
     {
+    
+        static void WriteFile(string fileName, string text)
+        {
+            string path = "/Users/karamodiaby/Desktop/";
+           
+            FileStream fWrite = new FileStream(path + fileName, FileMode.OpenOrCreate, FileAccess.Write);
+
+
+            byte[] writeArr = Encoding.UTF8.GetBytes(text);
+
+            fWrite.Write(writeArr);
+
+            fWrite.Close();
+        }
+
+        static void AddToFile(string fileName, string text)
+        {
+            string path = "/Users/karamodiaby/Desktop/";
+            using (StreamWriter sw = File.AppendText(path+fileName))
+            {
+                sw.WriteLine();
+                sw.WriteLine(text);
+            }
+        }
+
+        static void ReadFile(string file_name="file1.txt", string path= "/Users/karamodiaby/Desktop/")
+        {
+            string text = System.IO.File.ReadAllText(path + file_name);
+
+            Console.WriteLine(text);
+        }
+        
 
         static bool loginCheck(string user, string pass)
         {
