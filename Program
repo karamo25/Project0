@@ -5,6 +5,31 @@ namespace project0
     class Program
     {
     
+                static void AddAccNo(ArrayList accNoList)
+        {
+            bool unique = false;
+
+            while (!unique)
+            {
+                Console.WriteLine();
+                Console.Write("No: ");
+                int accNo = Convert.ToInt32(Console.ReadLine());
+
+                if (accNoList.Contains(accNo))
+                {
+                    Console.WriteLine("AccNo " + accNo + " Already Taken");
+                }
+                else
+                {
+                    accNoList.Add(accNo);
+                    unique = true;
+                }
+
+            }
+        }
+    
+        
+    
         static void WriteFile(string fileName, string text)
         {
             string path = "/Users/karamodiaby/Desktop/";
