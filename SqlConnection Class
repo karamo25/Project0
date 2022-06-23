@@ -1,0 +1,34 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.SqlClient;
+
+namespace project0
+{
+    internal class EmpInfo
+    {
+        SqlConnection con = new SqlConnection("server=Karamo-PC\\KARAMOINSTANC;database=MYDB;integrated security = true");
+
+        // Insert Employee and Department 
+
+        public string AddNewEmployee(string p_username, string p_firstName, string p_lastName,string p_password,float p_balance)
+        {
+            SqlCommand cmdAddNewEmp = new SqlCommand("insert into customers (accUsername,accFirstName,accLastName,accPassword,accBalance) values(@accUsername,@accFirstName,@accLastName,@accPassword,@accBalance)",con);
+            
+            cmdAddNewEmp.Parameters.AddWithValue("@accUsername", p_username);
+            cmdAddNewEmp.Parameters.AddWithValue("@accFirstName", p_firstName);
+            cmdAddNewEmp.Parameters.AddWithValue("@accLastName", p_lastName);
+            cmdAddNewEmp.Parameters.AddWithValue("@accPassword", p_password);
+            cmdAddNewEmp.Parameters.AddWithValue("@accBalance",p_balance);
+
+            con.Open();
+
+            cmdAddNewEmp.ExecuteNonQuery();
+
+            con.Close();
+            return "Employee Added Successfully";
+        }
+    }
+}
