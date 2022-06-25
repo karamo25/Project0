@@ -7,28 +7,118 @@ using System.Data.SqlClient;
 
 namespace project0
 {
-    internal class EmpInfo
+    public class EmpInfo
     {
-        SqlConnection con = new SqlConnection("server=Karamo-PC\\KARAMOINSTANC;database=MYDB;integrated security = true");
+        //  public string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
+        //  SqlConnection con = new SqlConnection("server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true");
 
         // Insert Employee and Department 
-
-        public string AddNewEmployee(string p_username, string p_firstName, string p_lastName,string p_password,float p_balance)
+        #region AddNewEmployee
+        public int AddNewEmployee(string p_Name, string p_Address, string p_Email, int p_balance, int p_pin)
         {
-            SqlCommand cmdAddNewEmp = new SqlCommand("insert into customers (accUsername,accFirstName,accLastName,accPassword,accBalance) values(@accUsername,@accFirstName,@accLastName,@accPassword,@accBalance)",con);
-            
-            cmdAddNewEmp.Parameters.AddWithValue("@accUsername", p_username);
-            cmdAddNewEmp.Parameters.AddWithValue("@accFirstName", p_firstName);
-            cmdAddNewEmp.Parameters.AddWithValue("@accLastName", p_lastName);
-            cmdAddNewEmp.Parameters.AddWithValue("@accPassword", p_password);
-            cmdAddNewEmp.Parameters.AddWithValue("@accBalance",p_balance);
+            SqlConnection con = new SqlConnection("server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true");
+            SqlCommand cmdAddNewEmp = new SqlCommand("insert into customers(accName,accAddress,accEmail,accBalance,accPin) values(@accName,@accAddress,@accEmail,@accBalance,@accPin)", con);
+
+            cmdAddNewEmp.Parameters.AddWithValue("@accName", p_Name);
+            cmdAddNewEmp.Parameters.AddWithValue("@accAddress", p_Address);
+            cmdAddNewEmp.Parameters.AddWithValue("@accEmail", p_Email);
+            cmdAddNewEmp.Parameters.AddWithValue("@accBalance", p_balance);
+            cmdAddNewEmp.Parameters.AddWithValue("@accPin", p_pin);
 
             con.Open();
 
             cmdAddNewEmp.ExecuteNonQuery();
 
             con.Close();
-            return "Employee Added Successfully";
+
+            return 1;
         }
+        #endregion
+
+        #region LoginCheck
+        public bool LoginCheck()
+        {
+            Console.Clear();
+            Console.Write("Account Number: ");
+            int p_accNo = Convert.ToInt32(Console.ReadLine());
+
+            Console.Write("PIN: ");
+            int p_accPin = Convert.ToInt32(Console.ReadLine());
+
+            SqlConnection con = new SqlConnection(conPath);
+            SqlCommand cmdLogin = new SqlCommand("select count(*) from login where accNo =@p_accNo and accPin=@p_accPin", con);
+
+            cmdLogin.Parameters.AddWithValue("@p_accNo", p_accNo);
+            cmdLogin.Parameters.AddWithValue("@p_accPin", p_accPin);
+
+            try
+            {
+                con.Open();
+                int countCredentials = (int)cmdLogin.ExecuteScalar();
+                if (countCredentials > 0)
+                {
+                    Console.WriteLine("True");
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine("False");
+                    return false;
+                }
+            }
+            catch (Exception es)
+            {
+                throw new Exception(es.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+
+
+
+            //}
+            #endregion
+
+            #region Retrieve AccNo from Table
+            List<int> getData(string p_accName)
+            {
+                // Enter an account name and returns 
+                // and return accNo, accBalance and accPin of that user in a list
+                string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
+                SqlConnection con = new SqlConnection(conPath);
+
+                SqlCommand cmd = new SqlCommand("select accNo,accBalance,accPin from customers where accName = @p_accName", con);
+
+                cmd.Parameters.Add(new SqlParameter("@p_accName", System.Data.SqlDbType.NVarChar));
+                cmd.Parameters["@p_accName"].Value = p_accName;
+
+                con.Open();
+                var reader = cmd.ExecuteReader();
+
+
+                List<int> list = new List<int>();
+                while (reader.Read())
+                {
+                    int r_accNo = reader.GetInt32(0);
+                    list.Add(r_accNo);
+                    int r_balanceNo = reader.GetInt32(1);
+                    list.Add(r_balanceNo);
+                    int r_pin = reader.GetInt32(2);
+                    list.Add(r_pin);
+
+
+                }
+
+                con.Close();
+                return list;
+            }
+
+        }
+
+
+        #endregion
     }
 }
+
+
