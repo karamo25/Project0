@@ -6,38 +6,67 @@ using System.Threading.Tasks;
 
 namespace project0
 {
-    internal class Account
+    internal class Account : EmpInfo
     {
+        #region Fields 
         public int accNo { get; set; }
         public string accName { get; set; }
         public double accBalance { get; set; }
         public bool accActive { get; set; }
         public string accEmail { get; set; }
+        #endregion 
 
-        public double Withdraw(int w_amount)
+        #region Withdrawal 
+        public int Withdraw(int w_amount,string v_name)
         {
-            accBalance = (accBalance - w_amount) - TransactionCharge(w_amount);
-            return accBalance;
+            EmpInfo custInfo = new EmpInfo();
+
+            List<int> l1 = custInfo.getData(v_name);
+            int v_accNo = l1[0];
+            int v_balance = l1[1];
+            Console.WriteLine("Current Balance: $" + v_balance);
+           // int v_pinNo = l[2];
+            v_balance = (v_balance - w_amount) - TransactionCharge(w_amount);
+            // Update the database with the new table 
+            custInfo.updateBalance(v_accNo,v_balance);
+            Console.WriteLine("----------------------");
+            Console.WriteLine("New Balance: $" + v_balance);
+            return v_balance;
         }
-        public double Deposit(int d_amount)
+        #endregion
+
+        #region Deposit
+        public int Deposit(int d_amount, string v_name)
         {
-            accBalance = accBalance + d_amount;
-            return accBalance;
+            EmpInfo custInfo = new EmpInfo();
+            List<int> l1 = custInfo.getData(v_name);
+            int v_balance = l1[1];
+            Console.WriteLine("Current Balance: $" + v_balance);
+            int accNo = l1[0];
+            v_balance = v_balance + d_amount;
+            // Update the database with the new table 
+            Console.WriteLine("------------------------");
+            Console.WriteLine("New Balance: $" + v_balance);
+            custInfo.updateBalance(accNo, v_balance);
+            return v_balance;
         }
+        #endregion
 
-        private double TransactionCharge(int amount)
+        #region Transaction Charge 
+        private int TransactionCharge(int amount)
         {
-            double tcharge = 0;
-            double percent = 15;
+            int tcharge = 1;
+           // double percent = 15;
 
-            tcharge = amount * percent / 100;
+           // tcharge = amount * percent / 100;
 
             return tcharge;
         }
-
+        #endregion
 
     }
 
 
 
 }
+
