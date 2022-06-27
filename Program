@@ -62,7 +62,7 @@ namespace project0
             Console.WriteLine();
             Console.WriteLine("Hit Enter to Main Menu");
             Console.ReadLine();
-            
+
 
             //printMenu();
         }
@@ -188,7 +188,50 @@ namespace project0
                                     #region Case 5 Transfer Funds
                                     case 5:
                                         Console.Clear();
-                                        Console.WriteLine("Transfer Funds");
+                                        Console.WriteLine("          Transfer Funds    ");
+                                        Console.WriteLine("-----------------------------");
+                                        Console.WriteLine();
+
+                                        Console.Write("From: ");
+                                        string fName = Console.ReadLine();
+
+                                        Console.Write("Account Number: ");
+                                        int fAccNo = Convert.ToInt32(Console.ReadLine());
+
+                                        Console.WriteLine();
+                                        Console.Write("To: ");
+                                        string tName = Console.ReadLine();
+
+                                        Console.WriteLine("Account Number: ");
+                                        int tAccNo = Convert.ToInt32(Console.ReadLine());
+
+                                        Console.WriteLine();
+                                        Console.Write("Transfer Amount: $ ");
+                                        double tAmount = Convert.ToDouble(Console.ReadLine());
+
+                                        // get current bank balance
+
+                                        EmpInfo empInfo5 = new EmpInfo();
+                                        var list4 = empinfo.getData(fName);
+
+                                        double iniBalance = Convert.ToDouble(list4[1]);
+
+                                        while(iniBalance < tAmount)
+                                        {
+                                            Console.WriteLine();
+                                            Console.WriteLine("--------------------");
+                                            Console.WriteLine("Insufficient Amount.");
+                                            Console.WriteLine("Current Balance: $" + iniBalance);
+                                            Console.WriteLine("Cannot Transfer: $" + tAmount);
+                                            Console.WriteLine("--------------------");
+                                            Console.WriteLine("");
+
+                                            Console.Write("Transfer Amount: $ ");
+                                            tAmount = Convert.ToDouble(Console.ReadLine());
+
+
+                                        }
+
 
                                         goBackToMenu(continueAdmin);
                                         break;
@@ -198,7 +241,7 @@ namespace project0
                                     #region Case 6 Disable Account 
                                     case 6:
                                         Console.Clear();
-                                        Console.WriteLine("           Disable Account");
+                                        Console.WriteLine("         Disable Account");
                                         Console.WriteLine("----------------------------");
                                         Console.Write("Account Number: ");
                                         int o_accNo = Convert.ToInt32(Console.ReadLine());
@@ -269,7 +312,7 @@ namespace project0
                                     #region Case 1 Check Balance 
                                     case 1:
 
-                                       
+
 
                                         Console.Clear();
                                         Console.WriteLine("        Balance");
@@ -320,7 +363,7 @@ namespace project0
                                         string dName = Console.ReadLine();
 
                                         Account accInfo4 = new Account();
-                                        double dBalance = accInfo4.Deposit(dAmount, dName);  
+                                        double dBalance = accInfo4.Deposit(dAmount, dName);
 
                                         goBackToMenu(continueCustomer);
                                         break;
@@ -356,7 +399,7 @@ namespace project0
                                         //          double newToBalance = tbalance + amount;
                                         //
                                         // 
-                                        Console.WriteLine("--------------------");
+                                        Console.WriteLine("------------------------------");
                                         Console.WriteLine();
                                         Console.WriteLine("Transfer from " + fName + " to " + tName + " has been completed.");
 
@@ -367,7 +410,11 @@ namespace project0
                                     #region Case 5 Transaction History
                                     case 5:
                                         Console.Clear();
-                                        Console.WriteLine("Transaction History");
+                                        Console.WriteLine("         Transaction History      ");
+                                        Console.WriteLine("------------------------------------");
+
+                                        //Print Table of transaction for account accNo
+
                                         goBackToMenu(continueCustomer);
                                         break;
                                     #endregion
@@ -375,7 +422,44 @@ namespace project0
                                     #region Case 6 Change Password
                                     case 6:
                                         Console.Clear();
-                                        Console.WriteLine("Change Password");
+                                        Console.WriteLine("         Change PIN Number     ");
+                                        Console.WriteLine("------------------------------");
+                                        Console.WriteLine();
+
+                                        Console.Write("Name: ");
+                                        string mName = Console.ReadLine();
+
+                                        Console.Write("Account Number: ");
+                                        int cAccNo = Convert.ToInt32(Console.ReadLine());
+
+                             
+                                        EmpInfo empinfo3 = new EmpInfo();
+                                        var list4 = empinfo3.getData(mName);
+
+                                        int  aNo = Convert.ToInt32(list4[0]);
+                                        int aPin = Convert.ToInt32(list4[2]);
+
+                                        
+                                        Console.WriteLine("Current PIN: ");
+                                        int currentPin = Convert.ToInt32(Console.ReadLine());
+
+                                      
+                                        while(currentPin != aPin)
+                                        {
+                                            Console.WriteLine();
+                                            Console.WriteLine("PIN Number Don't Match Try Again.");
+                                            currentPin = Convert.ToInt32(Console.ReadLine());
+                                        }
+
+                                        Console.WriteLine();
+                                        Console.Write("New PIN: ");
+                                        int newPIN = Convert.ToInt32(Console.ReadLine());
+
+                                        // update the PIN in table
+                                        // update customers set accPin = newPin where accNo = cAccNo;
+                                        // from EmpInfo
+                                        empinfo2.UpdatePin(aNo, aPin);
+
                                         goBackToMenu(continueCustomer);
                                         break;
                                     #endregion
@@ -429,7 +513,7 @@ namespace project0
             //Console.WriteLine("Acc No: " + accNo);
             //Console.WriteLine("Acc Ba: " + accBa);
             //Console.WriteLine("Acc Pin: " + accP);
-           
+
 
         }
     }
