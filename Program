@@ -5,7 +5,7 @@ namespace project0
 {
     class Program
     {
-
+        #region Print Admin Menu
         static void printAmdinMenu()
         {
             Console.Clear();
@@ -22,16 +22,23 @@ namespace project0
             Console.WriteLine();
 
         }
+        #endregion
+
+        #region Print Menu
         static void printMenu()
         {
             Console.Clear();
-            Console.WriteLine("Welcome ");
+            Console.WriteLine("            Welcome           ");
+            Console.WriteLine("-------------------------------");
             Console.WriteLine();
-            Console.WriteLine("1. Admin");
-            Console.WriteLine("2. Customer");
-            Console.WriteLine("3. Exit");
+            Console.WriteLine("          1. Admin");
+            Console.WriteLine("          2. Customer");
+            Console.WriteLine("          3. Exit");
             Console.WriteLine();
         }
+        #endregion
+
+        #region Print Customer Menu
         static void printCustomerMenu()
         {
             Console.Clear();
@@ -46,6 +53,9 @@ namespace project0
             Console.WriteLine("7. Exit");
             Console.WriteLine();
         }
+        #endregion
+
+        #region Go Back To Menu
         static void goBackToMenu(bool continueUser)
         {
             continueUser = false;
@@ -56,6 +66,8 @@ namespace project0
 
             //printMenu();
         }
+        #endregion
+
         static void Main(string[] args)
         {
             #region Menus
@@ -71,6 +83,7 @@ namespace project0
 
                     switch (choice)
                     {
+                        #region Case 1 Login As Admin
                         case 1:         //login as admin
                             EmpInfo empinfo = new EmpInfo();
                             int adminChoice;
@@ -101,7 +114,7 @@ namespace project0
                                         string v_email = Console.ReadLine();
 
                                         Console.Write("Balance: $");
-                                        int v_balance = Convert.ToInt32(Console.ReadLine());
+                                        double v_balance = Convert.ToDouble(Console.ReadLine());
 
                                         Console.Write("PIN: ");
                                         int v_pin = Convert.ToInt32(Console.ReadLine());
@@ -109,15 +122,15 @@ namespace project0
                                         empinfo.AddNewCustomer(v_name, v_address, v_email, v_balance, v_pin);
 
                                         // Get the employee accNo
-
-                                        List<int> l = empinfo.getData(v_name);
-                                        int v_accNo = l[0];
-                                        int v_balanceNo = l[1];
-                                        int v_pinNo = l[2];
+                                        var list1 = empinfo.getData(v_name);
+                                        var accNo = list1[0];
+                                        var accBa = list1[1];
+                                        var accP = list1[2];
 
                                         Console.WriteLine();
+                                        Console.WriteLine("--------------------------------");
                                         Console.WriteLine("Account Successfully Created for " + v_name);
-                                        Console.WriteLine("Account Number: " + v_accNo);
+                                        Console.WriteLine("Account Number: " + accNo);
                                         goBackToMenu(continueAdmin);
                                         #endregion
                                         break;
@@ -140,16 +153,11 @@ namespace project0
                                         Console.WriteLine("");
                                         Console.Write("Withdrawal Amount: $");
 
-                                        int witAmount = Convert.ToInt32(Console.ReadLine());
+                                        double witAmount = Convert.ToDouble(Console.ReadLine());
                                         Console.Write("Name: ");
                                         string aName = Console.ReadLine();
                                         Account accInfo = new Account();
-                                        int newBalance = accInfo.Withdraw(witAmount, aName);
-
-                                        Console.WriteLine();
-                                        Console.WriteLine("--------------------------");
-                                        Console.WriteLine("New Account Balance:" + newBalance);
-
+                                        double newBalance = accInfo.Withdraw(witAmount, aName);
 
                                         goBackToMenu(continueAdmin);
                                         break;
@@ -161,13 +169,15 @@ namespace project0
                                         Console.WriteLine("         Deposit");
                                         Console.Write("---------------------------");
                                         Console.WriteLine();
-                                        Console.Write("Amount: $");
 
-                                        int depAmount = Convert.ToInt32(Console.ReadLine());
+                                        Console.Write("Amount: $ ");
+                                        double depAmount = Convert.ToDouble(Console.ReadLine());
+
                                         Console.Write("Name: ");
                                         string depName = Console.ReadLine();
+
                                         Account accInfo1 = new Account();
-                                        int depBalance = accInfo1.Deposit(depAmount, depName);
+                                        double depBalance = accInfo1.Deposit(depAmount, depName);
 
                                         Console.WriteLine();
 
@@ -190,7 +200,6 @@ namespace project0
                                         Console.Clear();
                                         Console.WriteLine("           Disable Account");
                                         Console.WriteLine("----------------------------");
-                                        //EmpInfo empinfo2 = new EmpInfo();
                                         Console.Write("Account Number: ");
                                         int o_accNo = Convert.ToInt32(Console.ReadLine());
 
@@ -202,14 +211,13 @@ namespace project0
                                     #region Case 7 Activate Account
                                     case 7:
                                         Console.Clear();
-                                        Console.WriteLine("Activate Account");
-                                        Console.WriteLine("----------------------------");
-                                        
+                                        Console.WriteLine("        Activate Account    ");
+                                        Console.WriteLine("-----------------------------------");
+                                        Console.WriteLine();
                                         Console.Write("Account Number: ");
-                                        int m_accNo = Convert.ToInt32(Console.ReadLine());
+                                        int anAccount = Convert.ToInt32(Console.ReadLine());
 
-                                        empinfo.activateAccount(m_accNo);
-
+                                        empinfo.activateAccount(anAccount);
                                         goBackToMenu(continueAdmin);
                                         break;
                                     #endregion
@@ -221,7 +229,7 @@ namespace project0
                                         continueApp = false;
                                         goBackToMenu(continueAdmin);
                                         break;
-                                     #endregion
+                                        #endregion
 
                                 }
                             }
@@ -229,86 +237,115 @@ namespace project0
                             {
                                 Console.WriteLine("Account Number and PIN don't match. Try Again.");
                                 counter++;
-                            }
-
-                            if (counter == 3)
-                            {
-                                Console.Clear();
-                                Console.WriteLine("Wrong PIN more than 3 times is not allowed.");
-                                Console.WriteLine("Exiting");
-                                continueApp = false;
-                                break;
-                            }
-                            break;
-
-
-                        case 2:
-
-                            printCustomerMenu();
-                            EmpInfo empinfo2 = new EmpInfo();
-                            int customerChoice
-                            int counter = 0;
-                            bool continueAdmin = true
-                            switch (customerChoice)
-                            {
-                                #region Case 1 Check Balance 
-                                case 1:
+                                if (counter == 3)
+                                {
                                     Console.Clear();
-                                    Console.WriteLine("Balance");
-                                    goBackToMenu(continueCustomer);
-                                    break;
-                                #endregion
-
-                                #region Case 2 Withdrawal 
-                                case 2:
-                                    Console.Clear();
-                                    Console.WriteLine("Withdrawal");
-                                    goBackToMenu(continueCustomer);
-                                    break;
-                                #endregion
-
-                                #region Case 3 Deposit
-                                case 3:
-                                    Console.Clear();
-                                    Console.WriteLine("Deposit");
-                                    goBackToMenu(continueCustomer);
-                                    break;
-                                #endregion
-
-                                #region Case 4 Transfer
-                                case 4:
-                                    Console.Clear();
-                                    Console.WriteLine("Transfer");
-                                    goBackToMenu(continueCustomer);
-                                    break;
-                                #endregion
-
-                                #region Case 5 Transaction History
-                                case 5:
-                                    Console.Clear();
-                                    Console.WriteLine("Transaction History");
-                                    goBackToMenu(continueCustomer);
-                                    break;
-                                #endregion
-
-                                #region Case 6 Change Password
-                                case 6:
-                                    Console.Clear();
-                                    Console.WriteLine("Change Password");
-                                    goBackToMenu(continueCustomer);
-                                    break;
-                                #endregion
-
-                                #region Case 7 Quit App
-                                case 7:
-                                    Console.Clear();
-                                    Console.WriteLine("Thank You for Using the App");
+                                    Console.WriteLine("Wrong PIN more than 3 times is not allowed.");
+                                    Console.WriteLine("Exiting");
                                     continueApp = false;
                                     break;
-                                    #endregion
+                                }
 
                             }
+
+
                             break;
+                        #endregion
+
+
+                        #region Case 2 Customer Menu
+                        case 2:
+
+                            EmpInfo empinfo2 = new EmpInfo();
+                            bool continueCustomer = true;
+                            int counter1 = 0;
+                            if (empinfo2.CustomerLoginCheck())
+                            {
+                                printCustomerMenu();
+                                int customerChoice = Convert.ToInt32(Console.ReadLine());
+
+                                switch (customerChoice)
+                                {
+                                    #region Case 1 Check Balance 
+                                    case 1:
+                                        Console.Clear();
+                                        Console.WriteLine("        Balance");
+                                        Console.WriteLine("----------------------");
+                                        Console.WriteLine();
+                                        Console.Write("Name:");
+                                        string name1 = Console.ReadLine();
+
+                                        var aList = empinfo2.getData(name1);
+                                        var aBalance = aList[1];
+                                        Console.WriteLine("------------------------");
+                                        Console.Write("Current Balance: $" + aBalance);
+
+                                        goBackToMenu(continueCustomer);
+                                        break;
+                                    #endregion
+
+                                    #region Case 2 Withdrawal 
+                                    case 2:
+                                        Console.Clear();
+                                        Console.WriteLine("Withdrawal");
+                                        goBackToMenu(continueCustomer);
+                                        break;
+                                    #endregion
+
+                                    #region Case 3 Deposit
+                                    case 3:
+                                        Console.Clear();
+                                        Console.WriteLine("Deposit");
+                                        goBackToMenu(continueCustomer);
+                                        break;
+                                    #endregion
+
+                                    #region Case 4 Transfer
+                                    case 4:
+                                        Console.Clear();
+                                        Console.WriteLine("Transfer");
+                                        goBackToMenu(continueCustomer);
+                                        break;
+                                    #endregion
+
+                                    #region Case 5 Transaction History
+                                    case 5:
+                                        Console.Clear();
+                                        Console.WriteLine("Transaction History");
+                                        goBackToMenu(continueCustomer);
+                                        break;
+                                    #endregion
+
+                                    #region Case 6 Change Password
+                                    case 6:
+                                        Console.Clear();
+                                        Console.WriteLine("Change Password");
+                                        goBackToMenu(continueCustomer);
+                                        break;
+                                    #endregion
+
+                                    #region Case 7 Quit App
+                                    case 7:
+                                        Console.Clear();
+                                        Console.WriteLine("Thank You for Using the App");
+                                        continueApp = false;
+                                        break;
+                                        #endregion
+
+                                }
+                            }
+                            else if (!empinfo2.CustomerLoginCheck())
+                            {
+                                counter1++;
+                                if (counter1 == 3)
+                                {
+                                    continueCustomer = false;
+                                    break;
+                                }
+                            }
+
+                            break;
+                        #endregion
 
                         #region Case 3 Quit App
                         case 3:
@@ -328,7 +365,15 @@ namespace project0
             #endregion
 
             //EmpInfo empInfo = new EmpInfo();
-            //empInfo.updateBalance(103,2348);
+            //var list1 = empInfo.getData("papa");
+            //var accNo = list1[0];
+            //var accBa = list1[1];
+            //var accP = list1[2];
+
+            //Console.WriteLine("Acc No: " + accNo);
+            //Console.WriteLine("Acc Ba: " + accBa);
+            //Console.WriteLine("Acc Pin: " + accP);
+           
 
         }
     }
