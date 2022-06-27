@@ -1,0 +1,20 @@
+create table customers(
+	accNo int identity(101,1),
+	accName varchar(40),
+	accAddress varchar(40),
+	accEmail varchar(40),
+	accBalance int,
+	accPin int,
+	accStatus varchar(20) default 'Active',
+	attempt int default (0),
+	constraint pk_accNo primary key (accNo),
+	constraint accIsActiveList check (accStatus in ('Active','Disabled'))
+ )
+
+create table login(
+	accNo int identity(100,1),
+	accPin int)
+
+create table customerLogin(
+	accNo int identity(101,1),
+	accPin int)
