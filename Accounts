@@ -17,13 +17,13 @@ namespace project0
         #endregion 
 
         #region Withdrawal 
-        public int Withdraw(int w_amount,string v_name)
+        public double Withdraw(double w_amount,string v_name)
         {
             EmpInfo custInfo = new EmpInfo();
 
-            List<int> l1 = custInfo.getData(v_name);
-            int v_accNo = l1[0];
-            int v_balance = l1[1];
+            var l1 = custInfo.getData(v_name);
+            int v_accNo = Convert.ToInt32(l1[0]);
+            double v_balance = Convert.ToDouble(l1[1]);
             Console.WriteLine("Current Balance: $" + v_balance);
            // int v_pinNo = l[2];
             v_balance = (v_balance - w_amount) - TransactionCharge(w_amount);
@@ -36,13 +36,13 @@ namespace project0
         #endregion
 
         #region Deposit
-        public int Deposit(int d_amount, string v_name)
+        public double Deposit(double d_amount, string v_name)
         {
             EmpInfo custInfo = new EmpInfo();
-            List<int> l1 = custInfo.getData(v_name);
-            int v_balance = l1[1];
+            var l1 = custInfo.getData(v_name);
+            double v_balance = Convert.ToDouble(l1[1]);
             Console.WriteLine("Current Balance: $" + v_balance);
-            int accNo = l1[0];
+            int accNo = Convert.ToInt32(l1[0]);
             v_balance = v_balance + d_amount;
             // Update the database with the new table 
             Console.WriteLine("------------------------");
@@ -53,15 +53,30 @@ namespace project0
         #endregion
 
         #region Transaction Charge 
-        private int TransactionCharge(int amount)
+        private double TransactionCharge(double amount)
         {
-            int tcharge = 1;
-           // double percent = 15;
+           double percent = 15;
 
-           // tcharge = amount * percent / 100;
+           double tcharge = amount * percent / 100;
 
             return tcharge;
         }
+        #endregion
+
+        #region Transfer 
+        double Transfer(int p_fAccNo, int p_tAccNo, double fbalance, double tbalance, double transferAmount)
+        {
+            EmpInfo newInfo = new EmpInfo();
+            double newFromBalance = fbalance - transferAmount;
+            double newToBalance = tbalance + transferAmount;
+
+            newInfo.updateBalance(p_fAccNo, newFromBalance);
+            newInfo.updateBalance(p_tAccNo, newToBalance);
+
+            return 0;
+        }
+
+
         #endregion
 
     }
