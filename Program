@@ -304,9 +304,6 @@ namespace project0
                                         Console.WriteLine("-----------------------------");
                                         Console.WriteLine("Remaining Balance: $ " + fBalance);
 
-
-
-
                                         goBackToMenu(continueCustomer);
                                         break;
                                     #endregion
@@ -314,7 +311,17 @@ namespace project0
                                     #region Case 3 Deposit
                                     case 3:
                                         Console.Clear();
-                                        Console.WriteLine("Deposit");
+                                        Console.WriteLine("         Deposit    ");
+                                        Console.WriteLine("------------------------");
+                                        Console.WriteLine();
+                                        Console.Write("Amount: $ ");
+                                        double dAmount = Convert.ToDouble(Console.ReadLine());
+                                        Console.Write("Name: ");
+                                        string dName = Console.ReadLine();
+
+                                        Account accInfo4 = new Account();
+                                        double dBalance = accInfo4.Deposit(dAmount, dName);  
+
                                         goBackToMenu(continueCustomer);
                                         break;
                                     #endregion
@@ -322,7 +329,37 @@ namespace project0
                                     #region Case 4 Transfer
                                     case 4:
                                         Console.Clear();
-                                        Console.WriteLine("Transfer");
+                                        Console.WriteLine("       Transfer    ");
+                                        Console.WriteLine("-----------------------");
+                                        Console.WriteLine();
+
+                                        Console.Write("From: ");
+                                        string fName = Console.ReadLine();
+                                        EmpInfo empInfo4 = new EmpInfo();
+                                        var list2 = empInfo4.getData(fName);
+                                        var fAccNo = list2[0];
+                                        //var accBa = list2[1];
+                                        //var accP = list2[2];
+                                        Console.Write("To: ");
+                                        string tName = Console.ReadLine();
+
+                                        var list3 = empInfo4.getData(tName);
+                                        var tAccNo = list3[0];
+
+                                        Console.WriteLine();
+                                        Console.Write("Amount: $ ");
+                                        double tAmount = Convert.ToDouble(Console.ReadLine());
+
+                                        //transfer(int from, int to, double fbalance,double tbalance,double amount)
+                                        //          
+                                        //          double newFromBalance = fbalance - amount;
+                                        //          double newToBalance = tbalance + amount;
+                                        //
+                                        // 
+                                        Console.WriteLine("--------------------");
+                                        Console.WriteLine();
+                                        Console.WriteLine("Transfer from " + fName + " to " + tName + " has been completed.");
+
                                         goBackToMenu(continueCustomer);
                                         break;
                                     #endregion
