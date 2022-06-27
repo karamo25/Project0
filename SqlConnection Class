@@ -21,14 +21,14 @@ namespace project0
         {
             SqlConnection con = new SqlConnection("server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true");
             SqlCommand cmdAddNewEmp = new SqlCommand("insert into customers(accName,accAddress,accEmail,accBalance,accPin) values(@accName,@accAddress,@accEmail,@accBalance,@accPin)", con);
-            SqlCommand cmdAddLogin = new SqlCommand("insert into customerLogin values(@accPin)",con);
+            SqlCommand cmdAddLogin = new SqlCommand("insert into customerLogin values(@accPin)", con);
 
             cmdAddNewEmp.Parameters.AddWithValue("@accName", p_Name);
             cmdAddNewEmp.Parameters.AddWithValue("@accAddress", p_Address);
             cmdAddNewEmp.Parameters.AddWithValue("@accEmail", p_Email);
             cmdAddNewEmp.Parameters.AddWithValue("@accBalance", p_balance);
             cmdAddNewEmp.Parameters.AddWithValue("@accPin", p_pin);
-            cmdAddLogin.Parameters.AddWithValue("@accPin",p_pin);
+            cmdAddLogin.Parameters.AddWithValue("@accPin", p_pin);
 
             con.Open();
 
@@ -46,14 +46,14 @@ namespace project0
         //    string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
         //    SqlConnection conn1 = new SqlConnection(conPath);
         //    SqlCommand cmdUpdateLogin = new SqlCommand("update customerLogin set accNo = " + aNo + ",accPin = " + aPin, conn1);
-            
-            
+
+
         //    conn1.Open();
         //    cmdUpdateLogin.ExecuteNonQuery();
         //    conn1.Close();
 
         //}
-        #endregion 
+        #endregion
 
         #region LoginCheck
         public bool LoginCheck()
@@ -113,7 +113,7 @@ namespace project0
             Console.Write("PIN: ");
             int p_accPin = Convert.ToInt32(Console.ReadLine());
 
-            
+
             SqlCommand cmdLogin = new SqlCommand("select count(*) from customerLogin where accNo =@p_accNo and accPin=@p_accPin", con);
 
             cmdLogin.Parameters.AddWithValue("@p_accNo", p_accNo);
@@ -149,34 +149,34 @@ namespace project0
 
         #region Get DATA
         public ArrayList getData(string p_accName)
+        {
+            // Enter an account name and returns 
+            // and return accNo, accBalance and accPin of that user in a list
+            string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
+            SqlConnection con = new SqlConnection(conPath);
+
+            SqlCommand cmd = new SqlCommand("select accNo,accBalance,accPin from customers where accName = @p_accName", con);
+
+            cmd.Parameters.Add(new SqlParameter("@p_accName", System.Data.SqlDbType.NVarChar));
+            cmd.Parameters["@p_accName"].Value = p_accName;
+
+            con.Open();
+            var reader = cmd.ExecuteReader();
+
+            var alist = new ArrayList();
+            while (reader.Read())
             {
-                // Enter an account name and returns 
-                // and return accNo, accBalance and accPin of that user in a list
-                string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
-                SqlConnection con = new SqlConnection(conPath);
+                alist.Add(reader.GetInt32(0));
 
-                SqlCommand cmd = new SqlCommand("select accNo,accBalance,accPin from customers where accName = @p_accName", con);
+                alist.Add(reader.GetDouble(1));
 
-                 cmd.Parameters.Add(new SqlParameter("@p_accName", System.Data.SqlDbType.NVarChar));
-                 cmd.Parameters["@p_accName"].Value = p_accName;
+                alist.Add(reader.GetInt32(2));
 
-                con.Open();
-                var reader = cmd.ExecuteReader();
-
-                var alist = new ArrayList();
-                while (reader.Read())
-                {
-                    alist.Add(reader.GetInt32(0));
-                    
-                    alist.Add(reader.GetDouble(1));
-                    
-                    alist.Add(reader.GetInt32(2));
-
-                }
-
-                con.Close();
-                return alist;
             }
+
+            con.Close();
+            return alist;
+        }
         #endregion
 
         #region Print Table 
@@ -214,29 +214,29 @@ namespace project0
         #endregion
 
         #region Update Balance 
-        
+
         public void updateBalance(int v_accNo, double v_newBalance)
         {
-            
+
             string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
             SqlConnection con = new SqlConnection("server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true");
             con.Open();
-            SqlCommand cmdUpdate = new SqlCommand("update customers set accBalance = "+ v_newBalance + " where accNo = " + v_accNo , con);
- 
+            SqlCommand cmdUpdate = new SqlCommand("update customers set accBalance = " + v_newBalance + " where accNo = " + v_accNo, con);
+
             cmdUpdate.ExecuteNonQuery();
             con.Close();
-         
+
         }
 
         #endregion
 
         #region Disable Account 
-      public void disableAccount(int accNo)
+        public void disableAccount(int accNo)
         {
-           string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
-           SqlConnection con = new SqlConnection(conPath);
-           SqlCommand cmdDisable = new SqlCommand("update customers set accStatus = 'Disabled' where accNo =" + accNo, con);
-           
+            string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
+            SqlConnection con = new SqlConnection(conPath);
+            SqlCommand cmdDisable = new SqlCommand("update customers set accStatus = 'Disabled' where accNo =" + accNo, con);
+
 
             con.Open();
             cmdDisable.ExecuteNonQuery();
@@ -254,7 +254,7 @@ namespace project0
             string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
             SqlConnection conn = new SqlConnection(conPath);
 
-            SqlCommand cmdActivate = new SqlCommand("update customers set accStatus = 'Active' where accNo = " + a_accNo,conn );
+            SqlCommand cmdActivate = new SqlCommand("update customers set accStatus = 'Active' where accNo = " + a_accNo, conn);
             conn.Open();
             cmdActivate.ExecuteNonQuery();
             conn.Close();
@@ -263,18 +263,32 @@ namespace project0
             Console.WriteLine("Account Number: " + a_accNo + " is now activated");
         }
         #endregion
+
+        #region Update PIN
+
+        public void UpdatePin(int anAccNo,int new_pin)
+        {
+            string conPath = "server=Karamo-PC\\KARAMOINSTANCE2;database=master;integrated security = true";
+            SqlConnection conn2 = new SqlConnection(conPath);
+
+            SqlCommand cmdUpdatePin = new SqlCommand("update customers set accPin = " + new_pin + " where accNo = " + anAccNo, conn2);
+
+        }
+
+        #endregion
+
+
     }
 }
-  
-
-
-        
-   
 
 
 
 
-        
-   
+
+
+
+
+
+
 
 
