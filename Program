@@ -9,7 +9,8 @@ namespace project0
         static void printAmdinMenu()
         {
             Console.Clear();
-            Console.WriteLine("Welcome Admin");
+            Console.WriteLine("   Welcome Admin   ");
+            Console.WriteLine("-------------------");
             Console.WriteLine("");
             Console.WriteLine("1. New Account");
             Console.WriteLine("2. Account History");
@@ -42,7 +43,8 @@ namespace project0
         static void printCustomerMenu()
         {
             Console.Clear();
-            Console.WriteLine("Welcome Customer");
+            Console.WriteLine("     Welcome Customer   ");
+            Console.WriteLine("------------------------");
             Console.WriteLine("");
             Console.WriteLine("1. Check Balance");
             Console.WriteLine("2. Withdrawal");
@@ -216,7 +218,7 @@ namespace project0
 
                                         double iniBalance = Convert.ToDouble(list4[1]);
 
-                                        while(iniBalance < tAmount)
+                                        while (iniBalance < tAmount)
                                         {
                                             Console.WriteLine();
                                             Console.WriteLine("--------------------");
@@ -341,11 +343,21 @@ namespace project0
                                         Console.Write("Name: ");
                                         string wName = Console.ReadLine();
 
-                                        Account accInfo3 = new Account();
-                                        double fBalance = accInfo3.Withdraw(wAmount, wName);
+                                        //Account accInfo3 = new Account();
+                                        //double fBalance = accInfo3.Withdraw(wAmount, wName);
+
+                                        EmpInfo custinfo = new EmpInfo();
+                                        var mlist = custinfo.getData(wName);
+                                        int anAccount = Convert.ToInt32(mlist[0]);
+
+                                        double thebalance = Convert.ToDouble(mlist[1]);
+
+                                        double newBalance = thebalance - wAmount;
 
                                         Console.WriteLine("-----------------------------");
-                                        Console.WriteLine("Remaining Balance: $ " + fBalance);
+                                        Console.WriteLine("Remaining Balance: $ " + newBalance);
+
+                                        custinfo.updateBalance(anAccount, newBalance);
 
                                         goBackToMenu(continueCustomer);
                                         break;
@@ -365,6 +377,8 @@ namespace project0
                                         Account accInfo4 = new Account();
                                         double dBalance = accInfo4.Deposit(dAmount, dName);
 
+                                        Console.WriteLine("------------------------");
+                                        Console.WriteLine("New Balance: " + dBalance);
                                         goBackToMenu(continueCustomer);
                                         break;
                                     #endregion
@@ -378,16 +392,19 @@ namespace project0
 
                                         Console.Write("From: ");
                                         string fName = Console.ReadLine();
+
                                         EmpInfo empInfo4 = new EmpInfo();
                                         var list2 = empInfo4.getData(fName);
-                                        var fAccNo = list2[0];
-                                        //var accBa = list2[1];
+                                        int fAccNo = Convert.ToInt32(list2[0]);
+                                        double faccBa = Convert.ToDouble(list2[1]);
                                         //var accP = list2[2];
+
                                         Console.Write("To: ");
                                         string tName = Console.ReadLine();
 
                                         var list3 = empInfo4.getData(tName);
-                                        var tAccNo = list3[0];
+                                        int tAccNo = Convert.ToInt32(list3[0]);
+                                        double tAccBa = Convert.ToDouble(list3[1]);
 
                                         Console.WriteLine();
                                         Console.Write("Amount: $ ");
@@ -397,8 +414,11 @@ namespace project0
                                         //          
                                         //          double newFromBalance = fbalance - amount;
                                         //          double newToBalance = tbalance + amount;
-                                        //
+                                          //
                                         // 
+                                        Account tAccount = new Account();
+                                        tAccount.Transfer(fAccNo, tAccNo, faccBa, tAccBa, tAmount);
+
                                         Console.WriteLine("------------------------------");
                                         Console.WriteLine();
                                         Console.WriteLine("Transfer from " + fName + " to " + tName + " has been completed.");
@@ -432,19 +452,19 @@ namespace project0
                                         Console.Write("Account Number: ");
                                         int cAccNo = Convert.ToInt32(Console.ReadLine());
 
-                             
+
                                         EmpInfo empinfo3 = new EmpInfo();
                                         var list4 = empinfo3.getData(mName);
 
-                                        int  aNo = Convert.ToInt32(list4[0]);
+                                        int aNo = Convert.ToInt32(list4[0]);
                                         int aPin = Convert.ToInt32(list4[2]);
 
-                                        
+
                                         Console.WriteLine("Current PIN: ");
                                         int currentPin = Convert.ToInt32(Console.ReadLine());
 
-                                      
-                                        while(currentPin != aPin)
+
+                                        while (currentPin != aPin)
                                         {
                                             Console.WriteLine();
                                             Console.WriteLine("PIN Number Don't Match Try Again.");
@@ -503,18 +523,7 @@ namespace project0
                 }
             }
             #endregion
-
-            //EmpInfo empInfo = new EmpInfo();
-            //var list1 = empInfo.getData("papa");
-            //var accNo = list1[0];
-            //var accBa = list1[1];
-            //var accP = list1[2];
-
-            //Console.WriteLine("Acc No: " + accNo);
-            //Console.WriteLine("Acc Ba: " + accBa);
-            //Console.WriteLine("Acc Pin: " + accP);
-
-
+        
         }
     }
 }
