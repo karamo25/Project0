@@ -151,7 +151,7 @@ namespace project0
                                         Console.WriteLine("       Withdrawal");
                                         Console.WriteLine("---------------------------");
                                         Console.WriteLine("");
-                                        Console.Write("Withdrawal Amount: $");
+                                        Console.Write("Amount: $");
 
                                         double witAmount = Convert.ToDouble(Console.ReadLine());
                                         Console.Write("Name: ");
@@ -268,6 +268,9 @@ namespace project0
                                 {
                                     #region Case 1 Check Balance 
                                     case 1:
+
+                                       
+
                                         Console.Clear();
                                         Console.WriteLine("        Balance");
                                         Console.WriteLine("----------------------");
@@ -277,8 +280,8 @@ namespace project0
 
                                         var aList = empinfo2.getData(name1);
                                         var aBalance = aList[1];
-                                        Console.WriteLine("------------------------");
-                                        Console.Write("Current Balance: $" + aBalance);
+                                        Console.WriteLine("----------------------------");
+                                        Console.Write("Current Balance: $ " + aBalance);
 
                                         goBackToMenu(continueCustomer);
                                         break;
@@ -287,7 +290,23 @@ namespace project0
                                     #region Case 2 Withdrawal 
                                     case 2:
                                         Console.Clear();
-                                        Console.WriteLine("Withdrawal");
+                                        Console.WriteLine("            Withdrawal");
+                                        Console.WriteLine("-----------------------------");
+                                        Console.WriteLine();
+                                        Console.Write("Amount: $ ");
+                                        double wAmount = Convert.ToDouble(Console.ReadLine());
+                                        Console.Write("Name: ");
+                                        string wName = Console.ReadLine();
+
+                                        Account accInfo3 = new Account();
+                                        double fBalance = accInfo3.Withdraw(wAmount, wName);
+
+                                        Console.WriteLine("-----------------------------");
+                                        Console.WriteLine("Remaining Balance: $ " + fBalance);
+
+
+
+
                                         goBackToMenu(continueCustomer);
                                         break;
                                     #endregion
